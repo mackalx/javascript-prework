@@ -1,11 +1,18 @@
+document.getElementById('play-rock').addEventListener('click', function(){playGame(1);});
+
+document.getElementById('play-paper').addEventListener('click', function(){playGame(2);});
+
+document.getElementById('play-scissors').addEventListener('click', function(){playGame(3);});
+
 function playGame(playerInput){
   clearMessages();
   function getMoveName(argMoveId) {
-    if (argMoveId == 1) {
+
+    if (argMoveId === 1) {
       return 'kamień';
-    } else if (argMoveId == 2) {
+    } else if (argMoveId === 2) {
       return 'papier';
-    } else if (argMoveId == 3) {
+    } else if (argMoveId === 3) {
       return 'nożyce';
     } else {
       printMessage('Nie znam ruchu o id ' + argMoveId + '.');
@@ -27,31 +34,28 @@ function playGame(playerInput){
 
   printMessage('Twój ruch to: ' + playerMove);
 
-  function displayResult(argComputerMove, argPlayerMove) {
-    console.log('moves:', argComputerMove, argPlayerMove);
-    if (argComputerMove == argPlayerMove) {
-      printMessage('Remis!');
-    } else if (argComputerMove == 'kamień' && argPlayerMove == 'papier') {
-      printMessage('Ty wygrywasz!');
-    } else if (argComputerMove == 'kamień' && argPlayerMove == 'nożyce') {
-      printMessage('Ja wygrywam!');
-    } else if (argComputerMove == 'nożyce' && argPlayerMove == 'kamień') {
-      printMessage('Ty wygrywasz!');
-    } else if (argComputerMove == 'nożyce' && argPlayerMove == 'papier') {
-      printMessage('Ja wygrywam!');
-    } else if (argComputerMove == 'papier' && argPlayerMove == 'nożyce') {
-      printMessage('Ty wygrywasz!');
-    } else if (argComputerMove == 'papier' && argPlayerMove == 'kamień') {
-      printMessage('Ja wygrywam!');
-    } else {
-      printMessage('Spróbuj ponownie, napotkałem błąd.');
+  function getRoundScore(argPlayerMove, argComputerMove) {
+
+    if (argComputerMove === argPlayerMove) {
+      return 'Tym razem jest remis!'
     }
+    
+    if (
+      (argPlayerMove === 'kamień' && argComputerMove === 'nożyce') ||
+      (argPlayerMove === 'papier' && argComputerMove === 'kamień') ||
+      (argPlayerMove === 'nożyce' && argComputerMove === 'papier')
+    ) {
+      return 'Ty wygrałeś!'
+    }
+    
+    return 'Ja wygrałem!'
   }
+  
+  function displayResult(argPlayerMove, argComputerMove) {
+    printMessage(
+      getRoundScore(argComputerMove, argPlayerMove)
+      );
+  }
+  
   displayResult(computerMove, playerMove);
 }
-
-document.getElementById('play-rock').addEventListener('click', function(){playGame(1);});
-
-document.getElementById('play-paper').addEventListener('click', function(){playGame(2);});
-
-document.getElementById('play-scissors').addEventListener('click', function(){playGame(3);});
